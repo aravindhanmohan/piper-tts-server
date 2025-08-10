@@ -4,6 +4,13 @@ FROM python:3.10-slim
 # Set the working directory inside the container
 WORKDIR /app
 
+# --- FIX STARTS HERE ---
+# First, update the package lists, then install wget.
+# The "-y" flag auto-confirms the installation.
+# Finally, clean up the apt cache to keep the image small.
+RUN apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/*
+# --- FIX ENDS HERE ---
+
 # Install Piper TTS and a production-ready web server (Waitress)
 RUN pip install piper-tts flask waitress
 
